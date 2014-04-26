@@ -17,7 +17,6 @@
 package com.kbeanie.imagechooser.api;
 
 import java.io.File;
-import java.util.Calendar;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -27,6 +26,7 @@ import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
+import android.text.format.Time;
 import android.util.Log;
 
 import com.kbeanie.imagechooser.api.config.Config;
@@ -193,9 +193,15 @@ public class ImageChooserManager extends BChooser implements
 		checkDirectory();
 		try {
 			Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+			Time t = new Time();
+			t.setToNow();
+//			filePathOriginal = FileUtils.getDirectory(foldername)
+//					+ File.separator + Calendar.getInstance().getTimeInMillis()
+//					+ ".jpg";
 			filePathOriginal = FileUtils.getDirectory(foldername)
-					+ File.separator + Calendar.getInstance().getTimeInMillis()
+					+ File.separator + t.toMillis(true)
 					+ ".jpg";
+
 			intent.putExtra(MediaStore.EXTRA_OUTPUT,
 					Uri.fromFile(new File(filePathOriginal)));
 			startActivity(intent);
@@ -253,6 +259,13 @@ public class ImageChooserManager extends BChooser implements
 
 	}
 
+	public void processDirectImage(String path) {
+		filePathOriginal = path;
+		ImageProcessorThread thread = new ImageProcessorThread(path,
+				foldername, shouldCreateThumbnails);
+		thread.setListener(this);
+		thread.start();
+	}
 	private void processCameraImage() {
 		String path = filePathOriginal;
 		ImageProcessorThread thread = new ImageProcessorThread(path,

@@ -17,7 +17,7 @@
 package com.kbeanie.imagechooser.api;
 
 import java.io.File;
-
+import android.content.Context;
 import android.os.Environment;
 
 public class FileUtils {
@@ -33,6 +33,19 @@ public class FileUtils {
         }
         return directory.getAbsolutePath();
     }
+
+    public static String getPrivateDirectory(String foldername, Context context) {
+//      if (!foldername.startsWith(".")) {
+//          foldername = "." + foldername;
+//      }
+      File directory = null;
+      directory = new File(context.getFilesDir().getAbsolutePath()
+              + File.separator + foldername);
+      if (!directory.exists()) {
+          directory.mkdirs();
+      }
+      return directory.getAbsolutePath();
+  }
 
     public static String getFileExtension(String filename) {
         String extension = "";

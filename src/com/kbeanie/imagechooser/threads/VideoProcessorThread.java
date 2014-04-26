@@ -27,6 +27,7 @@ import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.provider.MediaStore.Video.Thumbnails;
 import android.text.TextUtils;
+import android.text.format.Time;
 import android.util.Log;
 
 import com.kbeanie.imagechooser.api.ChosenVideo;
@@ -128,8 +129,12 @@ public class VideoProcessorThread extends MediaProcessorThread {
 		Bitmap bitmap = ThumbnailUtils.createVideoThumbnail(filePath,
 				Thumbnails.FULL_SCREEN_KIND);
 		if (bitmap != null) {
-			previewImage = FileUtils.getDirectory(foldername) + File.separator
-					+ Calendar.getInstance().getTimeInMillis() + ".jpg";
+			Time t = new Time();
+			t.setToNow();
+//			previewImage = FileUtils.getDirectory(foldername) + File.separator
+//					+ Calendar.getInstance().getTimeInMillis() + ".jpg";
+            previewImage = FileUtils.getPrivateDirectory(foldername, context) + File.separator
+                    + t.toMillis(true) + ".jpg";
 			File file = new File(previewImage);
 			FileOutputStream stream = new FileOutputStream(file);
 			bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
@@ -143,8 +148,12 @@ public class VideoProcessorThread extends MediaProcessorThread {
 		Bitmap bitmap = ThumbnailUtils.createVideoThumbnail(filePath,
 				Thumbnails.MINI_KIND);
 		if (bitmap != null) {
-			thumbnailPath = FileUtils.getDirectory(foldername) + File.separator
-					+ Calendar.getInstance().getTimeInMillis() + ".jpg";
+			Time t = new Time();
+			t.setToNow();
+//			thumbnailPath = FileUtils.getDirectory(foldername) + File.separator
+//					+ Calendar.getInstance().getTimeInMillis() + ".jpg";
+            thumbnailPath = FileUtils.getPrivateDirectory(foldername, context) + File.separator
+                    + t.toMillis(true) + ".jpg";
 			File file = new File(thumbnailPath);
 			FileOutputStream stream = new FileOutputStream(file);
 			bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);

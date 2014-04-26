@@ -94,7 +94,8 @@ public abstract class BChooser {
 
 	protected void checkDirectory() {
 		File directory = null;
-		directory = new File(FileUtils.getDirectory(foldername));
+//		directory = new File(FileUtils.getDirectory(foldername));
+		directory = new File(FileUtils.getPrivateDirectory(foldername, getContext()));
 		if (!directory.exists()) {
 			directory.mkdirs();
 		}

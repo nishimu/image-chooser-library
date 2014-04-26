@@ -48,6 +48,7 @@ import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore.MediaColumns;
 import android.provider.OpenableColumns;
 import android.text.TextUtils;
+import android.text.format.Time;
 import android.util.Log;
 
 import com.kbeanie.imagechooser.api.FileUtils;
@@ -204,8 +205,10 @@ public abstract class MediaProcessorThread extends Thread {
 		try {
 			File file;
 			file = new File(Uri.parse(filePath).getPath());
-			File copyTo = new File(FileUtils.getDirectory(foldername)
-					+ File.separator + file.getName());
+//			File copyTo = new File(FileUtils.getDirectory(foldername)
+//					+ File.separator + file.getName());
+            File copyTo = new File(FileUtils.getPrivateDirectory(foldername, context) + File.separator
+            		+ file.getName());
 			FileInputStream streamIn = new FileInputStream(file);
 			BufferedOutputStream outStream = new BufferedOutputStream(
 					new FileOutputStream(copyTo));
@@ -237,10 +240,13 @@ public abstract class MediaProcessorThread extends Thread {
 		try {
 			HttpResponse response = client.execute(getRequest);
 			InputStream stream = response.getEntity().getContent();
-
-			localFilePath = FileUtils.getDirectory(foldername) + File.separator
-					+ Calendar.getInstance().getTimeInMillis() + "."
-					+ mediaExtension;
+			Time t = new Time();
+			t.setToNow();
+//			localFilePath = FileUtils.getDirectory(foldername) + File.separator
+//					+ Calendar.getInstance().getTimeInMillis() + "."
+//					+ mediaExtension;
+            localFilePath = FileUtils.getPrivateDirectory(foldername, context) + File.separator
+                    + t.toMillis(true) + "." + mediaExtension;
 			File localFile = new File(localFilePath);
 
 			FileOutputStream fileOutputStream = new FileOutputStream(localFile);
@@ -269,7 +275,8 @@ public abstract class MediaProcessorThread extends Thread {
 	protected void manageDiretoryCache(final int maxDirectorySize,
 			final int maxThresholdDays, final String extension) {
 		File directory = null;
-		directory = new File(FileUtils.getDirectory(foldername));
+//		directory = new File(FileUtils.getDirectory(foldername));
+        directory = new File(FileUtils.getPrivateDirectory(foldername, context));
 		File[] files = directory.listFiles();
 		long count = 0;
 		if (files == null) {
@@ -320,9 +327,12 @@ public abstract class MediaProcessorThread extends Thread {
 		try {
 			InputStream inputStream = context.getContentResolver()
 					.openInputStream(Uri.parse(path));
-
-			filePath = FileUtils.getDirectory(foldername) + File.separator
-					+ Calendar.getInstance().getTimeInMillis() + extension;
+			Time t = new Time();
+			t.setToNow();
+//			filePath = FileUtils.getDirectory(foldername) + File.separator
+//					+ Calendar.getInstance().getTimeInMillis() + extension;
+            filePath = FileUtils.getPrivateDirectory(foldername, context) + File.separator
+                    + t.toMillis(true) + extension;
 
 			BufferedOutputStream outStream = new BufferedOutputStream(
 					new FileOutputStream(filePath));
@@ -360,8 +370,12 @@ public abstract class MediaProcessorThread extends Thread {
 		}
 		try {
 
-			filePath = FileUtils.getDirectory(foldername) + File.separator
-					+ Calendar.getInstance().getTimeInMillis() + extension;
+			Time t = new Time();
+			t.setToNow();
+//			filePath = FileUtils.getDirectory(foldername) + File.separator
+//					+ Calendar.getInstance().getTimeInMillis() + extension;
+            filePath = FileUtils.getPrivateDirectory(foldername, context) + File.separator
+                    + t.toMillis(true) + extension;
 
 			ParcelFileDescriptor parcelFileDescriptor = context
 					.getContentResolver().openFileDescriptor(Uri.parse(path),
@@ -458,8 +472,12 @@ public abstract class MediaProcessorThread extends Thread {
 			InputStream inputStream = context.getContentResolver()
 					.openInputStream(Uri.parse(path));
 
-			filePath = FileUtils.getDirectory(foldername) + File.separator
-					+ Calendar.getInstance().getTimeInMillis() + extension;
+			Time t = new Time();
+			t.setToNow();
+//			filePath = FileUtils.getDirectory(foldername) + File.separator
+//					+ Calendar.getInstance().getTimeInMillis() + extension;
+            filePath = FileUtils.getPrivateDirectory(foldername, context) + File.separator
+                    + t.toMillis(true) + extension;
 
 			BufferedOutputStream outStream = new BufferedOutputStream(
 					new FileOutputStream(filePath));
