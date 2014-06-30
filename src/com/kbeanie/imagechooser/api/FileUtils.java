@@ -34,19 +34,6 @@ public class FileUtils {
         return directory.getAbsolutePath();
     }
 
-    public static String getPrivateDirectory(String foldername, Context context) {
-//      if (!foldername.startsWith(".")) {
-//          foldername = "." + foldername;
-//      }
-      File directory = null;
-      directory = new File(context.getFilesDir().getAbsolutePath()
-              + File.separator + foldername);
-      if (!directory.exists()) {
-          directory.mkdirs();
-      }
-      return directory.getAbsolutePath();
-  }
-
     public static String getFileExtension(String filename) {
         String extension = "";
         try {
@@ -56,5 +43,20 @@ public class FileUtils {
         }
         return extension;
     }
+
+    // CASE STORE_IMAGE_TO_PRIVATE
+    public static String getPrivateDirectory(String foldername, Context context) {
+//      if (!foldername.startsWith(".")) {
+//          foldername = "." + foldername;
+//      }
+        File directory = null;
+        directory = new File(context.getFilesDir().getAbsolutePath()
+                + File.separator + foldername);
+        if (!directory.exists()) {
+            directory.mkdirs();
+        }
+        return directory.getAbsolutePath();
+    }
+
 
 }

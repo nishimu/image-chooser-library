@@ -18,4 +18,5 @@ package com.kbeanie.imagechooser.api.config;
 
 public interface Config {
     public final static boolean DEBUG = false;
+    public final static boolean STORE_IMAGE_TO_PRIVATE = true
 }

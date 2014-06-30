@@ -193,15 +193,17 @@ public class ImageChooserManager extends BChooser implements
 		checkDirectory();
 		try {
 			Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-			Time t = new Time();
-			t.setToNow();
-//			filePathOriginal = FileUtils.getDirectory(foldername)
-//					+ File.separator + Calendar.getInstance().getTimeInMillis()
-//					+ ".jpg";
-			filePathOriginal = FileUtils.getDirectory(foldername)
-					+ File.separator + t.toMillis(true)
-					+ ".jpg";
-
+            if (!Config.STORE_IMAGE_TO_PRIVATE) {
+                filePathOriginal = FileUtils.getDirectory(foldername)
+                        + File.separator + Calendar.getInstance().getTimeInMillis()
+                        + ".jpg";
+            } else {
+                Time t = new Time();
+                t.setToNow();
+                filePathOriginal = FileUtils.getDirectory(foldername)
+                        + File.separator + t.toMillis(true)
+                        + ".jpg";
+            }
 			intent.putExtra(MediaStore.EXTRA_OUTPUT,
 					Uri.fromFile(new File(filePathOriginal)));
 			startActivity(intent);
@@ -259,13 +261,6 @@ public class ImageChooserManager extends BChooser implements
 
 	}
 
-	public void processDirectImage(String path) {
-		filePathOriginal = path;
-		ImageProcessorThread thread = new ImageProcessorThread(path,
-				foldername, shouldCreateThumbnails);
-		thread.setListener(this);
-		thread.start();
-	}
 	private void processCameraImage() {
 		String path = filePathOriginal;
 		ImageProcessorThread thread = new ImageProcessorThread(path,
@@ -287,4 +282,12 @@ public class ImageChooserManager extends BChooser implements
 			listener.onError(reason);
 		}
 	}
+
+    public void processDirectImage(String path) {
+        filePathOriginal = path;
+        ImageProcessorThread thread = new ImageProcessorThread(path,
+                foldername, shouldCreateThumbnails);
+        thread.setListener(this);
+        thread.start();
+    }
 }

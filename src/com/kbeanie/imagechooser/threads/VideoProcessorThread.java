@@ -129,12 +129,15 @@ public class VideoProcessorThread extends MediaProcessorThread {
 		Bitmap bitmap = ThumbnailUtils.createVideoThumbnail(filePath,
 				Thumbnails.FULL_SCREEN_KIND);
 		if (bitmap != null) {
-			Time t = new Time();
-			t.setToNow();
-//			previewImage = FileUtils.getDirectory(foldername) + File.separator
-//					+ Calendar.getInstance().getTimeInMillis() + ".jpg";
-            previewImage = FileUtils.getPrivateDirectory(foldername, context) + File.separator
-                    + t.toMillis(true) + ".jpg";
+            if (!Config.STORE_IMAGE_TO_PRIVATE) {
+                previewImage = FileUtils.getDirectory(foldername) + File.separator
+                        + Calendar.getInstance().getTimeInMillis() + ".jpg";
+            } else {
+                Time t = new Time();
+                t.setToNow();
+                previewImage = FileUtils.getPrivateDirectory(foldername, context) + File.separator
+                        + t.toMillis(true) + ".jpg";
+            }
 			File file = new File(previewImage);
 			FileOutputStream stream = new FileOutputStream(file);
 			bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
@@ -148,12 +151,15 @@ public class VideoProcessorThread extends MediaProcessorThread {
 		Bitmap bitmap = ThumbnailUtils.createVideoThumbnail(filePath,
 				Thumbnails.MINI_KIND);
 		if (bitmap != null) {
-			Time t = new Time();
-			t.setToNow();
-//			thumbnailPath = FileUtils.getDirectory(foldername) + File.separator
-//					+ Calendar.getInstance().getTimeInMillis() + ".jpg";
-            thumbnailPath = FileUtils.getPrivateDirectory(foldername, context) + File.separator
-                    + t.toMillis(true) + ".jpg";
+            if (!Config.STORE_IMAGE_TO_PRIVATE) {
+                thumbnailPath = FileUtils.getDirectory(foldername) + File.separator
+                        + Calendar.getInstance().getTimeInMillis() + ".jpg";
+            } else {
+                Time t = new Time();
+                t.setToNow();
+                thumbnailPath = FileUtils.getPrivateDirectory(foldername, context) + File.separator
+                        + t.toMillis(true) + ".jpg";
+            }
 			File file = new File(thumbnailPath);
 			FileOutputStream stream = new FileOutputStream(file);
 			bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);

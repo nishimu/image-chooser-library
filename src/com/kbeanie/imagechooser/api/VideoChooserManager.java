@@ -156,15 +156,18 @@ public class VideoChooserManager extends BChooser implements
 		checkDirectory();
 		try {
 			Intent intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
-			Time t = new Time();
-			t.setToNow();
-
-//			filePathOriginal = FileUtils.getDirectory(foldername)
-//					+ File.separator + Calendar.getInstance().getTimeInMillis()
-//					+ ".mp4";
-			filePathOriginal = FileUtils.getPrivateDirectory(foldername, getContext())
-					+ File.separator + t.toMillis(true)
+            if (!Config.STORE_IMAGE_TO_PRIVATE) {
+			    filePathOriginal = FileUtils.getDirectory(foldername)
+					+ File.separator + Calendar.getInstance().getTimeInMillis()
 					+ ".mp4";
+            } else {
+                Time t = new Time();
+                t.setToNow();
+
+                filePathOriginal = FileUtils.getPrivateDirectory(foldername, getContext())
+                        + File.separator + t.toMillis(true)
+                        + ".mp4";
+            }
 			intent.putExtra(MediaStore.EXTRA_OUTPUT,
 					Uri.fromFile(new File(filePathOriginal)));
 			startActivity(intent);

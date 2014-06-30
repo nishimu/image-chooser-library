@@ -24,6 +24,7 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
+import com.kbeanie.imagechooser.api.config.Config
 
 public abstract class BChooser {
 	protected Activity activity;
@@ -94,8 +95,11 @@ public abstract class BChooser {
 
 	protected void checkDirectory() {
 		File directory = null;
-//		directory = new File(FileUtils.getDirectory(foldername));
-		directory = new File(FileUtils.getPrivateDirectory(foldername, getContext()));
+        if (!Config.STORE_IMAGE_TO_PRIVATE) {
+            directory = new File(FileUtils.getDirectory(foldername));
+        } else {
+            directory = new File(FileUtils.getPrivateDirectory(foldername, getContext()));
+        }
 		if (!directory.exists()) {
 			directory.mkdirs();
 		}
