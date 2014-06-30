@@ -205,11 +205,12 @@ public abstract class MediaProcessorThread extends Thread {
 		try {
 			File file;
 			file = new File(Uri.parse(filePath).getPath());
+            File copyTo;
             if (!Config.STORE_IMAGE_TO_PRIVATE) {
-                File copyTo = new File(FileUtils.getDirectory(foldername)
+                copyTo = new File(FileUtils.getDirectory(foldername)
                         + File.separator + file.getName());
             } else {
-                File copyTo = new File(FileUtils.getPrivateDirectory(foldername, context) + File.separator
+                copyTo = new File(FileUtils.getPrivateDirectory(foldername, context) + File.separator
                         + file.getName());
             }
 			FileInputStream streamIn = new FileInputStream(file);

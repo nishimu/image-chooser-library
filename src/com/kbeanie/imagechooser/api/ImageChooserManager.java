@@ -17,6 +17,7 @@
 package com.kbeanie.imagechooser.api;
 
 import java.io.File;
+import java.util.Calendar;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -244,15 +245,7 @@ public class ImageChooserManager extends BChooser implements
 				ImageProcessorThread thread = new ImageProcessorThread(path,
 						foldername, shouldCreateThumbnails);
 				thread.setListener(this);
-				if (activity != null) {
-					thread.setContext(activity.getApplicationContext());
-				} else if (fragment != null) {
-					thread.setContext(fragment.getActivity()
-							.getApplicationContext());
-				} else if (appFragment != null) {
-					thread.setContext(appFragment.getActivity()
-							.getApplicationContext());
-				}
+                thread.setContext(getContext());
 				thread.start();
 			}
 		} else {
@@ -266,6 +259,7 @@ public class ImageChooserManager extends BChooser implements
 		ImageProcessorThread thread = new ImageProcessorThread(path,
 				foldername, shouldCreateThumbnails);
 		thread.setListener(this);
+        thread.setContext(getContext());
 		thread.start();
 	}
 

@@ -24,7 +24,7 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
-import com.kbeanie.imagechooser.api.config.Config
+import com.kbeanie.imagechooser.api.config.Config;
 
 public abstract class BChooser {
 	protected Activity activity;
